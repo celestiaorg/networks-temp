@@ -42,11 +42,6 @@ jobs:
       - name: Check user csv
         id: check-user-pr
         run: go run .github/workflows/checkuser.go ${{github.actor}} ${{github.event.number}}
-      - name: Commit changes to the csv
-        if: success()
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "Add ${{github.actor}} with pr ${{github.event.number}} to usersprs.csv file"
       - name: Add comment about user in csv
         if: failure()
         uses: actions/github-script@v6
@@ -59,6 +54,16 @@ jobs:
               repo: context.repo.repo,
               body: 'User has previously submitted a gentx PR'
             })
+
+  update-csv:
+    needs: check-user-pr
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Commit changes to the csv
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Add ${{github.actor}} with pr ${{github.event.number}} to usersprs.csv file"
 
   jq-format:
     needs: find-gentx-files
