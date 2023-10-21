@@ -31,21 +31,14 @@ jobs:
   check-user-pr:
     needs: find-gentx-files
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      pull-requests: write
     if: needs.find-gentx-files.outputs.gentx-changed == 'true'
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
       - name: Check user csv
         id: check-user-pr
         run: go run .github/workflows/checkuser.go ${{github.actor}} ${{github.event.number}}
-      - name: Commit changes to the csv
-        if: success()
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "Add ${{github.actor}} with pr ${{github.event.number}} to usersprs.csv file"
       - name: Add comment about user in csv
         if: failure()
         uses: actions/github-script@v6
