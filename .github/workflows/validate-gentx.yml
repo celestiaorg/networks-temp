@@ -31,8 +31,7 @@ jobs:
   check-user-pr:
     needs: find-gentx-files
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+    permissions: write-all
     if: needs.find-gentx-files.outputs.gentx-changed == 'true'
     steps:
       - uses: actions/checkout@v4
