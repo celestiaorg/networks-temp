@@ -1,5 +1,4 @@
-{
-  "body": {
+{"body": {
     "messages": [
       {
         "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
@@ -58,5 +57,4 @@
   },
   "signatures": [
     "FlR8X6IFE+CW2xi9pebP6yPbEM1xFjcjWrWkmaX37eZ4pAsnczi8PAptksMbE883dr0mAe2dXQ5Of5j4CDOwmg=="
-  ]
-}
+  ]}
