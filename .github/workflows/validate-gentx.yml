@@ -33,8 +33,10 @@ jobs:
             formatted=$(jq -c . $file)
             if [ "$formatted" != "$(cat $file)" ]; then
               echo "$file gentx file not formatted"
-              echo "expected "$formatted"
-              echo "found $(cat $file)"
+              echo "expected:"
+              echo $formatted
+              echo "found:"
+              cat $file
               exit 1
             fi
           done
