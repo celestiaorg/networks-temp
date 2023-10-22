@@ -33,6 +33,10 @@ jobs:
     if: needs.find-gentx-files.outputs.gentx-changed == 'true'
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.WRITE_CSV_PAT }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
@@ -52,6 +56,11 @@ jobs:
               repo: context.repo.repo,
               body: 'User has previously submitted a gentx PR'
             })
+      - name: Commit changes to the csv
+        if: success()
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Add ${{github.actor}} with pr ${{github.event.number}} to usersprs.csv file"
 
   jq-format:
     needs: find-gentx-files
