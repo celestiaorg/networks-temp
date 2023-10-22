@@ -49,6 +49,18 @@ func checkUser(user string, pr string) error {
 		}
 	}
 
-	fmt.Printf("User %s has not submitted a gentx PR yet\n", user)
+	// Create a new CSV writer
+	writer := csv.NewWriter(file)
+
+	// Write the user and PR to the CSV file
+	err = writer.Write([]string{user, pr})
+	if err != nil {
+		return err
+	}
+
+	// Flush the writer to ensure all data is written to the file
+	writer.Flush()
+
+	fmt.Printf("User %s's PR %s has been written to the CSV file\n", user, pr)
 	return nil
 }
