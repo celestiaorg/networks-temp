@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - master
-    paths:
-      - "./celestia/*gentx*/*.json"
+    # paths:
+    #   - "./celestia/*gentx*/*.json"
 
 jobs:
   # get_merged_pr_info uses the listPullRequestsAssociatedWithCommit API
