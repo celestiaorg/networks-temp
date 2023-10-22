@@ -37,10 +37,8 @@ func checkUser(user string, pr string) error {
 	}
 
 	// Check if the user exists in the CSV file
-	var userExists bool
 	for _, record := range records {
 		if record[0] == user {
-			userExists = true
 			if record[1] == pr {
 				fmt.Println("Pass: User exists with the same PR number")
 				return nil
@@ -51,17 +49,6 @@ func checkUser(user string, pr string) error {
 		}
 	}
 
-	// If the user does not exist, add them to the CSV file
-	if !userExists {
-		w := csv.NewWriter(file)
-		defer w.Flush()
-
-		if err := w.Write([]string{user, pr}); err != nil {
-			return err
-		}
-
-		fmt.Printf("User %s added with PR number %s\n", user, pr)
-	}
-
+	fmt.Printf("User %s has not submitted a gentx PR yet\n", user)
 	return nil
 }

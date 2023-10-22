@@ -33,6 +33,10 @@ jobs:
     if: needs.find-gentx-files.outputs.gentx-changed == 'true'
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
       - name: Check user csv
         id: check-user-pr
         run: go run .github/workflows/checkuser.go ${{github.actor}} ${{github.event.number}}

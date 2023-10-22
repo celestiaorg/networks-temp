@@ -43,12 +43,11 @@ jobs:
     permissions: "write-all"
     steps:
       - uses: actions/checkout@v4
-      - uses: gr2m/write-csv-file-action@v1.x
+      - uses: actions/setup-go@v4
         with:
-          path: .github/workflows/usersprs.csv
-          columns: user, pr
-          "user": ${{ needs.get_merged_pr_info.outputs.pr_author }}
-          "pr": ${{ needs.get_merged_pr_info.outputs.pr_number }}
+          go-version: 1.21
+      - name: Write to csv
+        run: go run .github/workflows/writecsv.go ${{ needs.get_merged_pr_info.outputs.pr_author }} ${{ needs.get_merged_pr_info.outputs.pr_number }}
       - name: Commit changes to the csv
         uses: EndBug/add-and-commit@v9
         with:
